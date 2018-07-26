@@ -72,14 +72,14 @@ class FeedPage: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as? FeedCell else{
             return UITableViewCell()
         }
-        // MARK:  This outer section will be call when cell configure properly
+        // This outer section will be call when cell configure properly
         cell.feed=Feed(title: self.feedData[indexPath.row].title, feedDescription: feedData[indexPath.row].description, feedPublish: self.feedData[indexPath.row].publishedAt,urlToImage:self.feedData[indexPath.row].urlToImage)
         
         // MARK: calling closoure for readmore section and open webview controller
         cell.readMoreAction={(cell) in
             if let urlPath=self.feedData[indexPath.row].url{
                 
-            // MARK: Initiliaze storyboard reference and pass url for the particular full news section then push to the next viewcontroller
+            // Initiliaze storyboard reference and pass url for the particular full news section then push to the next viewcontroller
                 let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let webViewController = storyBoard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
                 webViewController.urlString=urlPath
@@ -90,6 +90,27 @@ class FeedPage: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // image and link to share
+        if let image = UIImage(named: "placeholder_image"){
+            if  let link = self.feedData[indexPath.row].url {
+        
+        // set up activity view controller
+                let imageToShare = [ image,link ] as [Any]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        // exclude some activity types from the list (optional)
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    
     
     // MARK: Set Height for table cell
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

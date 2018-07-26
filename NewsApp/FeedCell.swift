@@ -41,7 +41,12 @@ class FeedCell: UITableViewCell {
     var feed:Feed!{
         didSet{
             feedTitle.text=feed.title
-            feedDescription.text=feed.feedDescription
+            if (feed.feedDescription != nil) && (feed.feedDescription != ""){
+                feedDescription.text=feed.feedDescription
+            }
+            else{// Set the default description when description is not available
+                feedDescription.text=DefaultDescription
+            }
             feedPublish.text=feed.feedPublish
             if let img = cache.object(forKey:feed.urlToImage as AnyObject ){
                 self.feedImage.image = img as? UIImage
@@ -53,7 +58,7 @@ class FeedCell: UITableViewCell {
         }
     }
     
-    //Make variable for custom closure that will be pass in below action.
+    // Variable for custom closure that will be pass in below action.
     var readMoreAction:((FeedCell)->Void)?
     
     // When will press read more button
@@ -65,7 +70,7 @@ class FeedCell: UITableViewCell {
 }
 
 
-// MARK: Class properties
+// MARK: Class properties and initalize them
 class Feed{
     var title:String?
     var feedDescription:String?

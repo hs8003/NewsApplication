@@ -15,8 +15,9 @@ let apiToken="apiKey=0ee73058c40f402182a34cf1124218ea"
 
 // Data Array That will be show in tableView Cell
 var HomeTblViewCellData = ["US Bussiness Headlines","Bitcoins","TechCrunch Headlines","Apple","Wall Street Journal"]
+var DefaultDescription = "To know more about this news or want to get in detail then click on read more below."
 
-// MARK: Setup case for particular section
+// MARK: Setup url for particular section
 enum URLString:String{
     case topHeadline="top-headlines?country=us&category=business&"
     case everything = "everything?q=bitcoin&sortBy=publishedAt&"
